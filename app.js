@@ -11,6 +11,7 @@ import {
     scrapeExplore,
     fetchGenresList,
     fetchCountriesList,
+    fetchMovieInfo2,
     scrapeGenre,
     genrePage,
     scrapeCountry,
@@ -109,6 +110,21 @@ app.get('/fetchMovieInfo', async (req, res) => {
     try {
         const id = req.query.id;
         const data = await fetchMovieInfo(id);
+
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json({
+            status: 500,
+            error: 'Internal Error',
+            message: err,
+        });
+    }
+});
+
+app.get('/fetchMovieInfo2', async (req, res) => {
+    try {
+        const id = req.query.id;
+        const data = await fetchMovieInfo2(id);
 
         res.status(200).json(data);
     } catch (err) {

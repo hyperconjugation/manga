@@ -164,6 +164,29 @@ export const fetchMovieInfo = async (id) => {
   }
 };
 
+export const fetchMovieInfo2 = async (id) => {
+  try {
+    let episode = []
+
+    const animePageTest = await axios.get(`https://www.mangaread.org/manga/${id}/`);
+
+    const $ = cheerio.load(animePageTest.data);
+
+    $('ul.version-chap > li.wp-manga-chapter    ').each((i, el) => {
+      episode.push({ 
+        episodeId: $(el).find('a').attr('href').replaceAll("https://www.mangaread.org/manga/", "").slice(0, -1),
+        episodeNum: $(el).find('a').text().trim()
+      });
+    });
+
+    return episode
+  } catch (err) {
+    console.log(err);
+    return { error: err };
+  }
+};
+
+
 
 export const home = async() => {
   try {
